@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolMuse - AI-Powered Digital Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1A1A3D;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, .neon-text {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .neon-blue {
+            text-shadow: 0 0 5px #3D5A80, 0 0 10px #3D5A80, 0 0 15px #3D5A80;
+        }
+        
+        .neon-purple {
+            text-shadow: 0 0 5px #9D4EDD, 0 0 10px #9D4EDD, 0 0 15px #9D4EDD;
+        }
+        
+        .neon-pink {
+            text-shadow: 0 0 5px #FF5D8F, 0 0 10px #FF5D8F, 0 0 15px #FF5D8F;
+        }
+        
+        .glow-box {
+            box-shadow: 0 0 15px rgba(61, 90, 128, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .glow-box:hover {
+            box-shadow: 0 0 25px rgba(61, 90, 128, 0.8);
+            transform: translateY(-5px);
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: var(--opacity); }
+        }
+        
+        .gradient-border {
+            position: relative;
+            border-radius: 0.5rem;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, #3D5A80, #9D4EDD, #FF5D8F);
+            border-radius: 0.6rem;
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        #robot-arm {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen relative">
+    <!-- Stars Background -->
+    <div id="stars-container" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></div>
+    
+    <!-- Navigation -->
+    <nav class="relative z-10 bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold neon-text neon-blue">ToolMuse</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-white hover:text-blue-300 transition">Home</a>
+                    <a href="#catalog" class="text-white hover:text-purple-300 transition">Catalog</a>
+                    <a href="#about" class="text-white hover:text-pink-300 transition">About Us</a>
+                    <a href="#contact" class="text-white hover:text-blue-300 transition">Contact</a>
+                </div>
+                <button class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Home Section -->
+    <section id="home" class="relative z-10 py-20">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 neon-text neon-blue">Build Digital <span class="neon-purple">Tools</span> Without Code</h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-300">AI-powered solutions for creators, entrepreneurs, and innovators</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#catalog" class="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full font-bold text-white hover:opacity-90 transition glow-box">Explore Tools</a>
+                    <a href="#about" class="px-8 py-3 border border-blue-400 rounded-full font-bold text-white hover:bg-blue-900 hover:bg-opacity-30 transition">Learn More</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative w-full max-w-md">
+                    <div class="gradient-border p-1 rounded-lg">
+                        <div class="bg-gray-900 rounded-lg p-4">
+                            <div class="bg-black rounded overflow-hidden">
+                                <div class="h-64 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center relative">
+                                    <div id="robot-arm" class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-robot text-4xl text-blue-400"></i>
+                                    </div>
+                                    <div class="absolute bottom-4 left-4 w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-hammer text-xl text-yellow-400"></i>
+                                    </div>
+                                    <div class="absolute top-4 right-4 w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-microphone text-xl text-purple-400"></i>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="text-lg font-bold neon-text neon-blue">AI Workshop</h3>
+                                    <p class="text-gray-400 text-sm">Building your digital tools...</p>
+                                    <div class="mt-2 h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full w-3/4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Catalog Section -->
+    <section id="catalog" class="relative z-10 py-20 bg-black bg-opacity-30">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 neon-text neon-purple">Our Digital Tool Collection</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Discover our AI-powered solutions designed to simplify your workflow</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="filter-btn px-6 py-2 rounded-full bg-blue-900 text-white font-medium" data-filter="all">All Tools</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-white font-medium" data-filter="zero-code">Zero-Code</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-white font-medium" data-filter="podcast">Podcast</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-gray-800 text-white font-medium" data-filter="content">Content</button>
+            </div>
+            
+            <!-- Tools Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Hammer-Site -->
+                <div class="tool-card glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300" data-category="zero-code">
+                    <div class="h-48 bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center">
+                        <i class="fas fa-laptop-code text-6xl text-blue-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold neon-text neon-blue">Hammer-Site</h3>
+                            <span class="px-3 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded-full">Zero-Code</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Build beautiful websites without writing a single line of code using AI assistance.</p>
+                        <a href="#hammer-site" class="text-blue-400 hover:text-blue-300 font-medium flex items-center group">
+                            View Details
+                            <i class="fas fa-arrow-right ml-2 group-hover:ml-3 transition-all"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Content-Help -->
+                <div class="tool-card glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300" data-category="content">
+                    <div class="h-48 bg-gradient-to-br from-purple-900 to-purple-700 flex items-center justify-center">
+                        <i class="fas fa-keyboard text-6xl text-purple-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold neon-text neon-purple">Content-Help</h3>
+                            <span class="px-3 py-1 bg-purple-900 bg-opacity-50 text-purple-300 text-xs rounded-full">Content</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">AI-powered content creation assistant for blogs, social media, and marketing copy.</p>
+                        <a href="#content-help" class="text-purple-400 hover:text-purple-300 font-medium flex items-center group">
+                            View Details
+                            <i class="fas fa-arrow-right ml-2 group-hover:ml-3 transition-all"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Podcast-Script -->
+                <div class="tool-card glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300" data-category="podcast">
+                    <div class="h-48 bg-gradient-to-br from-pink-900 to-pink-700 flex items-center justify-center">
+                        <i class="fas fa-podcast text-6xl text-pink-300"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold neon-text neon-pink">Podcast-Script</h3>
+                            <span class="px-3 py-1 bg-pink-900 bg-opacity-50 text-pink-300 text-xs rounded-full">Podcast</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">Generate engaging podcast scripts and show notes with AI guidance.</p>
+                        <a href="#podcast-script" class="text-pink-400 hover:text-pink-300 font-medium flex items-center group">
+                            View Details
+                            <i class="fas fa-arrow-right ml-2 group-hover:ml-3 transition-all"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Case Detail Section (Hammer-Site) -->
+    <section id="hammer-site" class="relative z-10 py-20 hidden">
+        <div class="container mx-auto px-6">
+            <div class="bg-gray-900 rounded-lg overflow-hidden glow-box">
+                <div class="md:flex">
+                    <div class="md:w-1/2 bg-gradient-to-br from-blue-900 to-blue-700 p-8 md:p-12 flex flex-col justify-between">
+                        <div>
+                            <button class="back-btn mb-6 text-blue-300 hover:text-white flex items-center">
+                                <i class="fas fa-arrow-left mr-2"></i> Back to Catalog
+                            </button>
+                            <h2 class="text-3xl font-bold mb-4 neon-text neon-blue">Hammer-Site</h2>
+                            <p class="text-blue-200 mb-6">Zero-Code Website Builder</p>
+                            <div class="mb-8">
+                                <h3 class="text-xl font-bold mb-3 text-white">Features</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-300 mt-1 mr-3"></i>
+                                        <span>Drag-and-drop interface with AI suggestions</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-300 mt-1 mr-3"></i>
+                                        <span>Responsive designs that work on all devices</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-300 mt-1 mr-3"></i>
+                                        <span>Built-in SEO optimization</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-300 mt-1 mr-3"></i>
+                                        <span>E-commerce capabilities</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="#" class="inline-block px-8 py-3 bg-white text-blue-900 rounded-full font-bold hover:bg-blue-100 transition">Try Demo</a>
+                    </div>
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <div class="mb-8">
+                            <h3 class="text-xl font-bold mb-3 text-white">Description</h3>
+                            <p class="text-gray-300 mb-4">Hammer-Site revolutionizes website building by combining intuitive drag-and-drop functionality with AI-powered design suggestions. Whether you're a small business owner, artist, or entrepreneur, create professional websites without technical expertise.</p>
+                            <p class="text-gray-300">Our AI analyzes your content and suggests layouts, color schemes, and even writes copy tailored to your audience. Real-time previews let you see changes instantly across all device types.</p>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-bold mb-3 text-white">Demo</h3>
+                            <div class="bg-black p-4 rounded-lg border border-gray-800">
+                                <div class="aspect-w-16 aspect-h-9 bg-gray-800 flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-4xl text-blue-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center justify-between">
+                            <div class="mb-4 sm:mb-0">
+                                <h4 class="text-sm font-bold text-gray-400 mb-2">SCAN TO TRY</h4>
+                                <div class="w-24 h-24 bg-white p-2 rounded">
+                                    <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-qrcode text-3xl text-gray-700"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-400 mb-2">TECHNOLOGY</h4>
+                                <div class="flex space-x-3">
+                                    <span class="px-3 py-1 bg-gray-800 text-blue-300 text-xs rounded-full">AI</span>
+                                    <span class="px-3 py-1 bg-gray-800 text-blue-300 text-xs rounded-full">React</span>
+                                    <span class="px-3 py-1 bg-gray-800 text-blue-300 text-xs rounded-full">Node.js</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Us Section -->
+    <section id="about" class="relative z-10 py-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 neon-text neon-pink">About ToolMuse</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">We're a team of AI enthusiasts and digital tool creators passionate about making technology accessible to everyone</p>
+            </div>
+            
+            <div class="mb-16 max-w-4xl mx-auto text-center">
+                <h3 class="text-2xl font-bold mb-6 neon-text neon-blue">Our Mission</h3>
+                <p class="text-gray-300 mb-6">At ToolMuse, we believe that powerful digital tools shouldn't require technical expertise. Our mission is to democratize technology by creating intuitive, AI-powered solutions that empower creators, entrepreneurs, and businesses to bring their ideas to life without barriers.</p>
+                <p class="text-gray-300">We combine cutting-edge artificial intelligence with thoughtful design to build tools that feel like they were crafted just for you.</p>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-8 text-center neon-text neon-purple">Meet The Team</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Olya -->
+                <div class="glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="h-64 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user-astronaut text-4xl text-blue-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h4 class="text-xl font-bold mb-1 neon-text neon-blue">Olya</h4>
+                        <p class="text-blue-300 mb-3">AI Architect</p>
+                        <p class="text-gray-400 text-sm">Designing the brains behind our tools with a focus on ethical AI.</p>
+                    </div>
+                </div>
+                
+                <!-- Arti -->
+                <div class="glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="h-64 bg-gradient-to-br from-purple-900 to-pink-900 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-robot text-4xl text-purple-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h4 class="text-xl font-bold mb-1 neon-text neon-purple">Arti</h4>
+                        <p class="text-purple-300 mb-3">UX Alchemist</p>
+                        <p class="text-gray-400 text-sm">Transforming complex tech into delightful user experiences.</p>
+                    </div>
+                </div>
+                
+                <!-- Kimi -->
+                <div class="glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="h-64 bg-gradient-to-br from-pink-900 to-blue-900 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-code text-4xl text-pink-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h4 class="text-xl font-bold mb-1 neon-text neon-pink">Kimi</h4>
+                        <p class="text-pink-300 mb-3">Code Wizard</p>
+                        <p class="text-gray-400 text-sm">Building the magic that makes our tools work seamlessly.</p>
+                    </div>
+                </div>
+                
+                <!-- Grok -->
+                <div class="glow-box bg-gray-900 rounded-lg overflow-hidden transition-all duration-300 hover:transform hover:scale-105">
+                    <div class="h-64 bg-gradient-to-br from-blue-900 to-pink-900 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                            <i class="fas fa-brain text-4xl text-blue-300"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <h4 class="text-xl font-bold mb-1 neon-text neon-blue">Grok</h4>
+                        <p class="text-blue-300 mb-3">AI Assistant</p>
+                        <p class="text-gray-400 text-sm">Our digital team member who's always learning and helping.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact" class="relative z-10 bg-black bg-opacity-50 border-t border-gray-800 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4 neon-text neon-blue">ToolMuse</h3>
+                    <p class="text-gray-400 mb-6">AI-powered digital tools for creators, entrepreneurs, and innovators.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-blue-300 hover:bg-blue-900 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-purple-300 hover:bg-purple-900 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-pink-300 hover:bg-pink-900 transition">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-blue-300 hover:bg-blue-900 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 neon-text neon-purple">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#catalog" class="text-gray-400 hover:text-white transition">Catalog</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 neon-text neon-pink">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-blue-300 mt-1 mr-3"></i>
+                            <span class="text-gray-400">hello@toolmuse.ai</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-purple-300 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Cosmic Labs, Digital Space</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2023 ToolMuse. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition">Terms of Service</a>
+                    <button id="reset-btn" class="text-gray-500 hover:text-pink-300 text-sm transition">Reset Preferences</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Create stars background
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            const starsCount = 100;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random properties
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const opacity = Math.random() * 0.8 + 0.2;
+                const duration = Math.random() * 5 + 3;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.setProperty('--opacity', opacity);
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                container.appendChild(star);
+            }
+        }
+        
+        // Filter functionality
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('bg-blue-900', 'text-white'));
+                    filterBtns.forEach(b => b.classList.add('bg-gray-800'));
+                    btn.classList.remove('bg-gray-800');
+                    btn.classList.add('bg-blue-900', 'text-white');
+                    
+                    const filter = btn.dataset.filter;
+                    
+                    // Filter cards
+                    toolCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Case detail navigation
+        function setupCaseNavigation() {
+            const caseLinks = document.querySelectorAll('a[href^="#"]:not([href="#"]):not(.back-btn)');
+            const backBtn = document.querySelector('.back-btn');
+            const catalogSection = document.getElementById('catalog');
+            const caseSection = document.getElementById('hammer-site');
+            
+            caseLinks.forEach(link => {
+                if (link.getAttribute('href').startsWith('#hammer-site') || 
+                    link.getAttribute('href').startsWith('#content-help') || 
+                    link.getAttribute('href').startsWith('#podcast-script')) {
+                    
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        catalogSection.classList.add('hidden');
+                        caseSection.classList.remove('hidden');
+                        window.scrollTo(0, 0);
+                    });
+                }
+            });
+            
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                catalogSection.classList.remove('hidden');
+                caseSection.classList.add('hidden');
+                window.scrollTo(0, catalogSection.offsetTop - 100);
+            });
+        }
+        
+        // Reset button
+        function setupResetButton() {
+            const resetBtn = document.getElementById('reset-btn');
+            
+            resetBtn.addEventListener('click', () => {
+                // In a real app, this would reset user preferences
+                alert('Preferences have been reset to default settings.');
+            });
+        }
+        
+        // Smooth scrolling
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#hammer-site' || 
+                        targetId === '#content-help' || 
+                        targetId === '#podcast-script') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            setupFilters();
+            setupCaseNavigation();
+            setupResetButton();
+            setupSmoothScrolling();
+        });
+    </script>
+</body>
+</html>
