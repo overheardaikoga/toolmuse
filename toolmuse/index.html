@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="aurora">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Worlds: Silicon & Soul</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #E8E4D9;
+            --accent-primary: #00D1FF;
+            --accent-secondary: #FF00E5;
+        }
+
+        [data-theme="aurora"] {
+            --accent-primary: #4deeea;
+            --accent-secondary: #7400b8;
+        }
+        [data-theme="cyber"] {
+            --accent-primary: #f5ed00;
+            --accent-secondary: #ff003c;
+        }
+        [data-theme="deep"] {
+            --accent-primary: #00f5d4;
+            --accent-secondary: #00bbf9;
+        }
+        [data-theme="pulse"] {
+            --accent-primary: #fb5607;
+            --accent-secondary: #ff006e;
+        }
+        [data-theme="dream"] {
+            --accent-primary: #9b5de5;
+            --accent-secondary: #f15bb5;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-primary);
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        .font-retro {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .neon-border {
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary), inset 0 0 5px var(--accent-primary);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Custom Tailwind Utilities for Themes */
+        .theme-accent-bg { background-color: var(--accent-primary); }
+        .theme-accent-text { color: var(--accent-primary); }
+        .theme-secondary-bg { background-color: var(--accent-secondary); }
+        .theme-secondary-text { color: var(--accent-secondary); }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
