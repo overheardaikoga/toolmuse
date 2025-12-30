@@ -1,0 +1,12 @@
+# system
+ntuser.*
+vmlogs/
+
+# unrelated local projects
+portfolio-editor/
+retrofutur-blog-editor/
+
+# editor
+.vscode/
+.idea/
+.DS_Store
