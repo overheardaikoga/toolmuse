@@ -131,12 +131,14 @@ const App: React.FC = () => {
   };
 
   const handlePublish = () => {
-  if (!window.opener) {
-    console.warn('Event Editor: no window.opener detected');
+  const target = window.opener ?? window.parent;
+
+  if (!target) {
+    console.warn('Event Editor: no target window for postMessage');
     return;
   }
 
-  window.opener.postMessage(
+  target.postMessage(
     {
       type: 'editor-message',
       editorId: 'event',
@@ -144,16 +146,14 @@ const App: React.FC = () => {
       payload: {
         status: 'success',
         preview: event.headline,
-        link: 'http://localhost:5174/event/preview',
+        link: 'https://toolmuse.vercel.app',
       },
     },
     '*'
   );
-
-  // window.close(); ← раскомментировать после теста
 };
 
-
+ 
   return (
     <div
       className="min-h-screen flex"
