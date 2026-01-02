@@ -56,7 +56,8 @@ export const Workspace: React.FC = () => {
             {/* Editor Buttons List */}
             <div className="space-y-4">
               {WORKSHOP_EDITORS.map((editor) => {
-                const isReady = editor.status === 'Ready';
+                const isReady = editor.status.toLowerCase() === 'ready';
+
                 const isEvent = editor.id === 'event';
 
                 return (
