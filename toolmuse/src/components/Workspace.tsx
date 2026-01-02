@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { WORKSHOP_EDITORS, IconMap } from '../constants';
 import { Hammer, Zap, ArrowRight } from 'lucide-react';
+import { EditorBridge } from '../lib/EditorBridge';
 
 type EventResult = {
   status: 'success' | 'cancel';
@@ -8,37 +9,28 @@ type EventResult = {
   link: string;
 };
 
-const isValidEventResult = (data: unknown): data is EventResult => {
-  if (!data || typeof data !== 'object') return false;
-  
-  const result = data as Record<string, unknown>;
-  
-  return (
-    (result.status === 'success' || result.status === 'cancel') &&
-    typeof result.preview === 'string' &&
-    typeof result.link === 'string'
-  );
+const EVENT_EDITOR_CONFIG = {
+  id: 'event',
+  prodOrigin: 'https://event-editor-six.vercel.app',
+  devOriginsPattern: 'http://localhost:*'
 };
 
 export const Workspace: React.FC = () => {
   const [eventResult, setEventResult] = useState<EventResult | null>(null);
 
   const openEvent = () => {
-    window.open('http://localhost:5174', '_blank');
+    EditorBridge.open(
+      EVENT_EDITOR_CONFIG,
+      (payload) => {
+        if (payload.status === 'success') {
+          setEventResult(payload);
+        }
+      },
+      () => {
+        console.error('Event Editor timeout or error');
+      }
+    );
   };
-
-  useEffect(() => {
-    const handler = (event: MessageEvent) => {
-      if (event.origin !== 'http://localhost:5174') return;
-
-      if (!isValidEventResult(event.data)) return;
-
-      setEventResult(event.data);
-    };
-
-    window.addEventListener('message', handler);
-    return () => window.removeEventListener('message', handler);
-  }, []);
 
   return (
     <section id="workspace" className="py-24 px-6 bg-[var(--bg-primary)]">
