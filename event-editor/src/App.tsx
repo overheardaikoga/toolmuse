@@ -126,19 +126,31 @@ const App: React.FC = () => {
     setModal(null);
   };
 
+  const closeModal = () => {
+    setModal(null);
+  };
+
   const handlePublish = () => {
-  if (!window.opener) return;
+  if (!window.opener) {
+    console.warn('Event Editor: no window.opener detected');
+    return;
+  }
 
   window.opener.postMessage(
     {
-      status: 'success',
-      preview: event.headline,
-      link: 'http://localhost:5174/event/preview',
+      type: 'editor-message',
+      editorId: 'event',
+      version: '1.0',
+      payload: {
+        status: 'success',
+        preview: event.headline,
+        link: 'http://localhost:5174/event/preview',
+      },
     },
-    'http://localhost:5173'
+    '*'
   );
 
-  // window.close(); ← ЗАКОММЕНТИРОВАТЬ
+  // window.close(); ← раскомментировать после теста
 };
 
 
