@@ -3,31 +3,45 @@ import { WORKSHOP_EDITORS, IconMap } from '../constants';
 import { Hammer, Zap, ArrowRight } from 'lucide-react';
 import { EditorBridge } from '../lib/EditorBridge';
 
-type EventResult = {
+type EditorResult = {
+  editorId: string;
   status: 'success' | 'cancel';
   preview: string;
   link: string;
 };
 
-const EVENT_EDITOR_CONFIG = {
-  id: 'event',
-  prodOrigin: 'https://event-editor-six.vercel.app',
-  devOriginsPattern: 'http://localhost:*'
+const EDITOR_CONFIGS: Record<string, any> = {
+  event: {
+    id: 'event',
+    prodOrigin: 'https://event-editor-six.vercel.app',
+    devOriginsPattern: 'http://localhost:*'
+  },
+  blog: {
+    id: 'blog',
+    prodOrigin: 'http://localhost:3001',
+    devOriginsPattern: 'http://localhost:*'
+  }
 };
 
 export const Workspace: React.FC = () => {
-  const [eventResult, setEventResult] = useState<EventResult | null>(null);
+  const [result, setResult] = useState<EditorResult | null>(null);
 
-  const openEvent = () => {
+  const openEditor = (editorId: string) => {
+    const config = EDITOR_CONFIGS[editorId];
+    if (!config) {
+      console.warn(`No config for editor: ${editorId}`);
+      return;
+    }
+
     EditorBridge.open(
-      EVENT_EDITOR_CONFIG,
+      config,
       (payload) => {
         if (payload.status === 'success') {
-          setEventResult(payload);
+          setResult({ editorId, ...payload });
         }
       },
       () => {
-        console.error('Event Editor timeout or error');
+        console.error(`${editorId} editor timeout or error`);
       }
     );
   };
@@ -53,18 +67,16 @@ export const Workspace: React.FC = () => {
           </div>
 
           <div className="grid lg:grid-cols-[1fr_400px] gap-12 items-start">
-            {/* Editor Buttons List */}
+            {/* Editors */}
             <div className="space-y-4">
               {WORKSHOP_EDITORS.map((editor) => {
                 const isReady = editor.status.toLowerCase() === 'ready';
-
-                const isEvent = editor.id === 'event';
 
                 return (
                   <button
                     key={editor.id}
                     disabled={!isReady}
-                    onClick={isEvent && isReady ? openEvent : undefined}
+                    onClick={isReady ? () => openEditor(editor.id) : undefined}
                     className={`
                       w-full group flex items-center justify-between p-6 rounded-2xl transition-all duration-300
                       ${
@@ -114,24 +126,24 @@ export const Workspace: React.FC = () => {
                 );
               })}
 
-              {/* Event Result Output */}
-              {eventResult && (
+              {/* Result */}
+              {result && (
                 <div className="mt-8 p-6 rounded-2xl border border-black/10 bg-gray-50">
                   <p>
-                    <strong>Status:</strong> {eventResult.status}
+                    <strong>Editor:</strong> {result.editorId}
                   </p>
                   <p>
-                    <strong>Preview:</strong> {eventResult.preview}
+                    <strong>Preview:</strong> {result.preview}
                   </p>
                   <p>
                     <strong>Link:</strong>{' '}
                     <a
-                      href={eventResult.link}
+                      href={result.link}
                       target="_blank"
                       rel="noreferrer"
                       className="underline"
                     >
-                      {eventResult.link}
+                      {result.link}
                     </a>
                   </p>
                 </div>
@@ -145,19 +157,13 @@ export const Workspace: React.FC = () => {
                 <Zap className="absolute -top-2 -right-2 w-8 h-8 text-yellow-400 animate-pulse" />
               </div>
               <div className="mt-8 space-y-2">
-                <h3 className="text-xl font-bold font-retro text-gray-400 uppercase tracking-widest group-hover:text-[var(--accent-primary)] transition-colors">
+                <h3 className="text-xl font-bold text-gray-400 uppercase tracking-widest group-hover:text-[var(--accent-primary)] transition-colors">
                   Hammer Visualizer
                 </h3>
                 <p className="text-gray-400 text-sm max-w-[200px] mx-auto">
-                  Select a template to start building your site
+                  Select a tool to start building
                 </p>
               </div>
-
-              {/* Decorative dots */}
-              <div className="absolute top-8 right-8 w-2 h-2 rounded-full bg-gray-200" />
-              <div className="absolute top-8 left-8 w-2 h-2 rounded-full bg-gray-200" />
-              <div className="absolute bottom-8 right-8 w-2 h-2 rounded-full bg-gray-200" />
-              <div className="absolute bottom-8 left-8 w-2 h-2 rounded-full bg-gray-200" />
             </div>
           </div>
         </div>

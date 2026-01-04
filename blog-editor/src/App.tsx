@@ -5,6 +5,29 @@ import { Modal } from './components/Modal';
 import { refineText } from './aiService';
 
 const App: React.FC = () => {
+  const handlePublish = () => {
+  const message = {
+    type: 'editor-message',
+    editorId: 'blog',
+    version: '1.0',
+    payload: {
+      status: 'success',
+      preview: texts.headline,
+      link: 'https://example.com/blog-post'
+    }
+  };
+
+  const target = window.opener ?? window.parent;
+
+  if (!target) {
+    console.warn('No opener or parent to send message');
+    return;
+  }
+
+  target.postMessage(message, '*');
+};
+
+  
   // --- STATE ---
   const [currentTheme, setCurrentTheme] = useState<ThemeKey>('aurora');
   const [texts, setTexts] = useState<BlogTextState>(INITIAL_TEXTS);
@@ -107,8 +130,8 @@ const App: React.FC = () => {
   const renderSlot = (slot: SlotKey, label: string) => {
     const hasImage = !!images[slot];
     const isSelected = activeSlot === slot;
-
-    return (
+  
+      return (
       <div 
         onClick={() => setActiveSlot(isSelected ? null : slot)}
         className={`
@@ -164,24 +187,29 @@ const App: React.FC = () => {
           <h1 className="text-lg font-bold tracking-tight">RetroFutur<span className="font-light opacity-70">Editor</span></h1>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button onClick={saveDraft} className="px-4 py-2 rounded-full text-sm font-medium bg-white/5 hover:bg-white/10 transition-colors border border-white/5">
-            Save Draft
-          </button>
-          <button 
-            className="px-5 py-2 rounded-full text-sm font-bold text-white shadow-lg hover:brightness-110 transition-all active:scale-95"
-            style={{ background: theme.primary, boxShadow: `0 0 20px ${theme.primary}60` }}
-          >
-            Publish
-          </button>
-          
-          <div className="relative">
-            <button 
-              onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
-              className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors border border-white/5"
-            >
-              <span className="material-symbols-outlined text-white/80">palette</span>
-            </button>
+       <div className="flex items-center gap-3">
+  <button
+    onClick={saveDraft}
+    className="px-4 py-2 rounded-full text-sm font-medium bg-white/5 hover:bg-white/10 transition-colors border border-white/5"
+  >
+    Save Draft
+  </button>
+
+  <button
+    onClick={handlePublish}
+    className="px-5 py-2 rounded-full text-sm font-bold text-white shadow-lg hover:brightness-110 transition-all active:scale-95"
+    style={{ background: theme.primary, boxShadow: `0 0 20px ${theme.primary}60` }}
+  >
+    Publish
+  </button>
+
+  <div className="relative">
+    <button
+      onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
+      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors border border-white/5"
+    >
+      <span className="material-symbols-outlined text-white/80">palette</span>
+    </button>
             
             {isThemeMenuOpen && (
               <div className="absolute right-0 top-full mt-3 p-3 bg-[#0F051A]/95 border border-white/10 rounded-xl shadow-xl backdrop-blur-xl flex gap-2">
