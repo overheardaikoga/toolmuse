@@ -17,10 +17,10 @@ const EDITOR_CONFIGS: Record<string, any> = {
     devOriginsPattern: 'http://localhost:*'
   },
   blog: {
-    id: 'blog',
-    prodOrigin: 'http://localhost:3001',
-    devOriginsPattern: 'http://localhost:*'
-  }
+  id: 'blog',
+  prodOrigin: 'https://toolmuse-6iw2-b9juyr7gh-overheardais-projects.vercel.app',
+  devOriginsPattern: 'http://localhost:*'
+}
 };
 
 export const Workspace: React.FC = () => {
