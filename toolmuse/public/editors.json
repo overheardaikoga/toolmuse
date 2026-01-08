@@ -1,0 +1,25 @@
+{
+  "editors": [
+    {
+      "id": "event",
+      "name": "Event Editor",
+      "prodOrigin": "",
+      "devOriginsPattern": "http://localhost:*",
+      "status": "ready"
+    },
+    {
+      "id": "blog",
+      "name": "Blog Editor",
+      "prodOrigin": "",
+      "devOriginsPattern": "http://localhost:*",
+      "status": "ready"
+    },
+    {
+      "id": "service",
+      "name": "Service Editor",
+      "prodOrigin": "",
+      "devOriginsPattern": "http://localhost:*",
+      "status": "ready"
+    }
+  ]
+}

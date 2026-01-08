@@ -67,7 +67,7 @@ export const WORKSHOP_EDITORS: WorkshopEditor[] = [
   { id: 'portfolio', name: 'Portfolio', status: 'Ready', icon: 'Briefcase' },
   { id: 'blog', name: 'Blog', status: 'Ready', icon: 'FileText' },
   { id: 'event', name: 'Event', status: 'Ready', icon: 'Calendar' },
-  { id: 'service', name: 'Service', status: 'Coming Soon', icon: 'Layout' },
+  { id: 'service', name: 'Service', status: 'Ready', icon: 'Layout' },
   { id: 'promo', name: 'Promo', status: 'Coming Soon', icon: 'Megaphone' },
 ];
 
