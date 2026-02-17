@@ -2,11 +2,13 @@
 ntuser.*
 vmlogs/
 
-# unrelated local projects
+node_modules/
 
+# unrelated local projects
 retrofutur-blog-editor/
 
 # editor
 .vscode/
 .idea/
 .DS_Store
+
