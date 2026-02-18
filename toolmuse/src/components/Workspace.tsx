@@ -23,10 +23,14 @@ const EDITOR_CONFIGS: Record<string, any> = {
   },
  service: {
   id: 'service',
-  prodOrigin: 'http://localhost:5175',
+  prodOrigin: 'https://service-editor.vercel.app',
   devOriginsPattern: 'http://localhost:*'
-}
-
+},
+  portfolio: {
+    id: 'portfolio',
+    prodOrigin: 'https://portfolio-editor-ivory.vercel.app',
+    devOriginsPattern: 'http://localhost:*'
+  },
 };
 
 export const Workspace: React.FC = () => {

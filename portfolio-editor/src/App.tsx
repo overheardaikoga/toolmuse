@@ -66,7 +66,22 @@ const App: React.FC = () => {
   };
 
   const handlePublish = () => {
-    alert("Publishing to the retro-verse... (Prototype Mode)");
+    const message = {
+      type: 'editor-message',
+      editorId: 'portfolio',
+      version: '1.0',
+      payload: {
+        status: 'success',
+        preview: data.headline,
+        link: 'https://portfolio-editor-ivory.vercel.app',
+      },
+    };
+    const target = window.opener ?? window.parent;
+    if (!target) {
+      console.warn('No opener or parent to send message');
+      return;
+    }
+    target.postMessage(message, '*');
   };
 
   const handleTextUpdate = (key: keyof PortfolioData, value: string) => {

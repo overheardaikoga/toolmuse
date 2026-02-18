@@ -4,6 +4,7 @@ import type { ModalType, ServiceData } from './types';
 import { COLORS, THEMES } from './constants';
 import { UploadIcon, EditIcon, BoltIcon, PaletteIcon, LogoIcon } from './components/Icons';
 import Modal from './components/Modal';
+import { sendResult } from './communication';
 
 const INITIAL_SERVICE: ServiceData = {
   headline: 'Digital Frontier',
@@ -51,7 +52,13 @@ const App: React.FC = () => {
     if (newVal !== null) updateField(field, newVal);
   };
 
-  const handlePublish = () => alert('Broadcasting to all nodes... 📡');
+  const handlePublish = () => {
+    sendResult({
+      status: 'success',
+      preview: serviceData.headline,
+      link: 'https://service-editor.vercel.app',
+    });
+  };
 
   const paletteItems = [
     { theme: THEMES.mint, color: COLORS.AURORA_MINT },
